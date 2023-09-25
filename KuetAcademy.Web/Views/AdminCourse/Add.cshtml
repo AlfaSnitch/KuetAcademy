@@ -1,0 +1,110 @@
+﻿@model KuetAcademy.Web.Models.ViewModels.AddCourseRequest
+@{
+}
+
+<div class="bg-secondary bg-opacity-10 py-2">
+    <div class="container">
+        <h1> Add New Course - Admin Functionality</h1>
+    </div>
+</div>
+
+<div class="container py-3">
+    <form method="post">
+        <br />
+        <div class="mb-3">
+            <label class="form-label" style="font-size:18px;">Course Title</label>
+            <input type="text" class="form-control" asp-for="Title" required/>
+        </div>
+        <br />
+        <div class="mb-3">
+            <label class="form-label" style="font-size:18px;">Video</label>
+            <input type="text" class="form-control" asp-for="VideoPath" required />
+        </div>
+        <br />
+        <div class="mb-3">
+            <label class="form-label" style="font-size:18px;">Video Name</label>
+            <input type="text" class="form-control" asp-for="Name" required />
+        </div>
+        <br />
+        <div class="mb-3">
+            <label class="form-label" style="font-size:18px;">Content</label>
+            <textarea class="form-control" id="content" asp-for="Description"></textarea>
+        </div>
+        <br />
+        <div class="mb-3">
+            <label class="form-label" style="font-size:18px;">Thumbnail Picture</label>
+            <input type="file" id="featuredImageUpload" class="form-control"/>
+
+            <img src="" id="featuredImageDisplay" style="display:none; width:300px; height:300px; margin-top:5px;" />
+        </div>
+        <br />
+        <div class="mb-3">
+            <label class="form-label" style="font-size:18px;">Thumbnail Image Url</label>
+            <input type="text" class="form-control" id="featuredimageurl" asp-for="FeaturedImageUrl" required />
+        </div>
+        <br />
+        <div class="mb-3">
+            <label class="form-label" style="font-size:18px;">Url Handle</label>
+            <input type="text" class="form-control" id="urlhandle" asp-for="UrlHandle" required />
+        </div>
+        <br />
+        <div class="mb-3">
+            <label class="form-label" style="font-size:18px;">Published Date</label>
+            <input type="date" class="form-control" id="publisheddate" asp-for="PublishedDate" required />
+        </div>
+        <br />
+        <div class="mb-3">
+            <label class="form-label" style="font-size:18px;">Author</label>
+            <input type="text" class="form-control" id="author" asp-for="Author" required />
+        </div>
+        <br />
+        <div class="mb-3">
+            <label class="form-label" style="font-size:18px;">Duration</label>
+            <input type="text" class="form-control" asp-for="Duration" required />
+        </div>
+        <br />
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary" style="font-size:16px;">
+                <b>Add</b>
+            </button>
+        </div>
+        <br />
+    </form>
+
+</div>
+
+@section Scripts{
+    <script>
+        var editor = new FroalaEditor('#content', {
+            imageUploadURL: '/api/images'
+        });
+
+        const featuredUploadElement = document.getElementById('featuredImageUpload');
+        const featuredImageUrlElement = document.getElementById('featuredimageurl');
+        const featuredImageDisplayElement = document.getElementById('featuredImageDisplay');
+
+
+        async function uploadFeaturedImage(e) {
+            console.log(e.target.files[0]);
+
+            let data = new FormData();
+            data.append('file', e.target.files[0]);
+
+            await fetch('/api/images', {
+                method: 'POST',
+                headers: {
+                    'Accept': '*/*',
+                },
+                body: data
+            }).then(response => response.json())
+                .then(result => {
+                    featuredImageDisplayElement.src = result.link;
+                    featuredImageDisplayElement.style.display = 'block';
+                    featuredImageUrlElement.value = result.link;
+                });
+        }
+
+        featuredUploadElement.addEventListener('change', uploadFeaturedImage);
+
+    </script>
+}

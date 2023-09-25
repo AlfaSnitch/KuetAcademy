@@ -1,0 +1,58 @@
+﻿@model KuetAcademy.Web.Models.ViewModels.EditTagRequest
+@{
+}
+@if (TempData["UpdateAlertMessage"] != null)
+{
+    <div class="alert alert-success">
+        <strong>Succes</strong>@TempData["AlertMessage"]
+        <button type="button" class="close" data-dismiss="alert">
+            <span>&times;</span>
+        </button>
+    </div>
+}
+
+<div style="background-color:lightgrey; opacity:inherit; border-radius:8px;">
+    <div class="container">
+        <h2>EDIT TAGS</h2>
+    </div>
+</div>
+<br />
+<div class="container" style="padding-top:10px;">
+    @if (Model != null)
+    {
+        <form method="post">
+            <div class="mb3">
+                <label style="font-weight:bold; font-size:20px;">ID</label>
+                <input class="form-control" id="id" type="text" asp-for="Id" readonly />
+            </div>
+            <br>
+            <div class="mb3">
+                <label style="font-weight:bold; font-size:20px;">NAME</label>
+                <input class="form-control" id="name" type="text" asp-for="Name" />
+            </div>
+            <br>
+            <div class="mb3">
+                <label style="font-weight:bold; font-size:20px;">DISPLAY NAME</label>
+                <input class="form-control" id="displayName" type="text" asp-for="DisplayName" />
+            </div>
+            <br>
+            <div class="mb-3 py-4">
+                <div class="d-flex">
+                    <button type="submit" class="btn btn-primary" style="margin-right:5px; font-size:20px;"><b>Update</b></button>
+                    <button type="submit" class="btn btn-danger ms-2" style="font-size:20px;"
+                            asp-area="" asp-controller="AdminTag"
+                            asp-action="Delete">
+                        <b>Delete</b>
+                    </button>
+                </div>
+            </div>
+            <br>
+            <br>
+        </form>
+    }
+    else
+    {
+        <p>Tag not found</p>
+    }
+
+</div>

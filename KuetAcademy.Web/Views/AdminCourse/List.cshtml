@@ -1,0 +1,54 @@
+﻿@model List<KuetAcademy.Web.Models.Domain.Courses>
+
+@{
+}
+
+<div style="background-color:lightgrey; opacity:inherit; border-radius:8px;">
+    <div class="container">
+        <h1>All  Courses</h1>
+    </div>
+</div>
+
+<div class="container" style="background-color:#FFF4F4; height:80%;">
+    @if (Model != null && Model.Any())
+    {
+        <table class="table" style="font-size:16px;">
+            <thead style="background-color:lightblue;">
+                <tr style="font-size:20px;">
+                    <th>Id</th>
+                    <th>Course Title</th>
+                    <th>Author</th>
+                    <th> </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var blogpost in Model)
+                {
+                    <tr>
+                        <td>@blogpost.Id</td>
+                        <td>@blogpost.Title</td>
+                        <td>
+                            @blogpost.Author
+                        </td>
+                        <td>
+                            <a class="btn btn-primary" asp-area=""
+                               asp-controller="AdminCourse"
+                               asp-action="Edit"
+                               asp-route-id="@blogpost.Id">
+                                Edit
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No Courses found</p>
+    }
+
+</div>
+<br />
+<br />
+<br />

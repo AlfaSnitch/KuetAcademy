@@ -1,0 +1,157 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> signInManager
+@inject UserManager<IdentityUser> userManager
+
+@model KuetAcademy.Web.Models.ViewModels.BlogDetailsViewModel
+@{
+}
+
+<div class="container">
+    <div class="row blog-container">
+        <div class="col-md-12 col-lg-8 center-block">
+
+            @if (Model != null)
+            {
+                <h1>@Model.Heading</h1>
+
+                <div class="center-block">
+                    <span style="font-size:18px; font-weight:bold;">@Model.Author</span>
+                    <span style="font-size:18px; margin-left:20px;">@Model.PublishedDate.ToShortDateString()</span>
+                </div>
+                <br />
+                <div style="font-weight:bold; font-size:14px;">
+                    @if (signInManager.IsSignedIn(User))
+                    {
+                        @if (Model.Liked)
+                        {
+                            <a style="cursor:pointer;">
+                                <i class="bi bi-hand-thumbs-up-fill"></i>
+                            </a>
+                        }
+                        else
+                        {
+                            <a id="btnlike" style="cursor:pointer;">
+                                <i class="bi bi-hand-thumbs-up"></i>
+                            </a>
+                        }
+
+                    }
+                    <span id="totalLikes">@Model.TotalLikes</span> Likes
+                </div>
+                <br />
+
+                <div class="car"> 
+
+                </div>
+
+                <div class="mb-3 d-flex">
+                    @foreach (var tag in Model.Tags)
+                    {
+                        <span class="badge" style="color:white; margin-right:5px;">@tag.Name</span>
+                    }
+                </div>
+                <br />
+                <img src ="@Model.FeaturedImageUrl" class="img-responsive" />
+                <br />
+                <div class="blog-details-content" style="font-size:30px;">
+                    @Html.Raw(Model.Content)
+                </div>
+
+                <div style="background-color:#F5F5F5;border-radius:15px; padding:5px 10px 5px;">
+                    <div style="margin-bottom:10px;">
+                        <h3 style="margin-top:20px;">Comment Section</h3>
+                        @if (signInManager.IsSignedIn(User))
+                        {
+                            <form method="post">
+                                <br>
+                                <div style="margin-bottom:4px;">
+                                    <label class="form-group">Share Your Thoughts</label>
+                                    <input type="text" class="form-control" asp-for="CommentDescription" />
+                                </div>
+                                <br>
+                                <div style="margin-bottom:4px;">
+                                    <button type="submit" class="btn" style="color:white; background-color:black">
+                                        Submit
+                                    </button>
+                                    <input type="hidden" asp-for="Id" />
+                                    <input type="hidden" asp-for="UrlHandle" />
+                                </div>
+
+                            </form>
+                        }
+                    </div>
+                    <hr style="border:1px solid black;">
+                    <div style="background-color:white;">
+                        @if(Model.Comments!=null && Model.Comments.Any())
+                        {
+                            @foreach(var comment in Model.Comments)
+                            {
+                                <div style="border-style: solid;">
+                                    <div style="padding:10px 10px 0 10px; font-size:18px;">
+                                        @comment.Description
+                                    </div>
+                                    <div style="justify-content:space-between; display:flex; font-weight:bold;">
+                                        <span style="font-size:14px; padding:0 10px 0 10px; color:#8F43EE">@comment.Username</span>
+                                        <span style="font-size:14px; padding:0 10px 0 10px; color:#FF0303">@comment.DateAdded</span>
+                                    </div>
+                                  
+                                </div>
+                                <br />
+                            }
+                        }
+                    </div>
+                </div>
+
+               
+            }
+            else
+            {
+                <br />
+                <br />
+                <p>Blog Post Not Found.</p>
+            }
+
+        </div>
+    </div>
+
+</div>
+
+@section Scripts{
+    <script>
+        const btnLikeElement = document.getElementById('btnlike');
+        const totalLikeElement = document.getElementById('totalLikes');
+
+        async function getTotalLikes(){
+            fetch('/api/blogpostlike/@Model.Id/totalLikes', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': '*/*'
+                }
+            }).then(data => data.json())
+                .then(result => totalLikeElement.innerHTML = result)
+        }
+
+        async function addLikeForBlog(){
+            fetch('/api/BlogPostLike/Add',{
+                method: 'POST',
+                headers: {
+                    'Content-Type' : 'application/json',
+                    'Accept' : '*/*'
+                },
+                body: JSON.stringify({
+                    blogPostId: '@Model.Id',
+                    userId: '@userManager.GetUserId(User)' 
+                })
+
+            }).then(()=> {
+                btnLikeElement.innerHTML = '<i class="bi bi-hand-thumbs-up-fill"></i>';
+                btnLikeElement.removeEventListener('click',addLikeForBlog);
+                getTotalLikes();
+            });
+        }
+
+        btnLikeElement.addEventListener('click',addLikeForBlog);
+
+    </script>
+}

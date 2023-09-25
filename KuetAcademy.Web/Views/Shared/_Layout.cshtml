@@ -1,0 +1,250 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> signInManager
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <title>KUET ACADEMY</title>
+    <link rel="icon" href="/images/logo.png">
+    <br />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/css/owl.carousel.css">
+    <link rel="stylesheet" href="~/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+
+
+
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="~/css/templatemo-style.css">
+
+    <!-- wysiwyg -->
+    <link href='https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css' rel='stylesheet' type='text/css' />
+
+    <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js'></script>
+
+    <!-- Sweet Alert -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+</head>
+<body id="top" data-spy="scroll" data-target=".navbar-collapse" data-offset="50">
+    <!-- MENU -->
+    <section class="navbar custom-navbar navbar-fixed-top" role="navigation">
+        <div class="container">
+
+            <div class="navbar-header">
+                <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon icon-bar"></span>
+                    <span class="icon icon-bar"></span>
+                    <span class="icon icon-bar"></span>
+                </button>
+
+                <!-- lOGO TEXT HERE -->
+                <a asp-for="" asp-controller="Home" asp-action="Index" class="navbar-brand">KUET ACADEMY</a>
+            </div>
+
+            <!-- MENU LINKS -->
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-nav-first" style="font-weight:bold;font-size:16px; margin-left:4rem;">
+                    <li><a href="#top" class="smoothScroll">Home</a></li>
+                    <li><a href="#about" class="smoothScroll">About</a></li>
+                    <li><a href="#team" class="smoothScroll">Our Teachers</a></li>
+                    <li><a href="#courses" class="smoothScroll">Courses</a></li>
+                    <li><a href="#testimonial" class="smoothScroll">Blogs</a></li>
+                    <li><a href="#contact" class="smoothScroll">Contact</a></li>
+
+                    @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Admin
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-area=""
+                                       asp-controller="AdminTag"
+                                       asp-action="Add">Add Tags</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-area=""
+                                       asp-controller="AdminTag"
+                                       asp-action="List">Show All Tags</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-area=""
+                                       asp-controller="AdminBlogPost"
+                                       asp-action="Add">Add Blog Post</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-area=""
+                                       asp-controller="AdminBlogPost"
+                                       asp-action="List">All Blog Post</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-area=""
+                                       asp-controller="AdminUsers"
+                                       asp-action="List">All Users</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-area=""
+                                       asp-controller="AdminCourse"
+                                       asp-action="Add">Add Courses</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-area=""
+                                       asp-controller="AdminCourse"
+                                       asp-action="List">All Courses</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-area=""
+                                       asp-controller="AdminTeacher"
+                                       asp-action="Add">Add Teacher</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-area=""
+                                       asp-controller="AdminTeacher"
+                                       asp-action="List">All Teacher</a>
+                                </li>
+                            </ul>
+                        </li>
+                    }
+
+
+                </ul>
+
+                @if (signInManager.IsSignedIn(User))
+                {
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="btn" style="margin-top:24px; font-size:16px; margin-right:15px; font-weight:bold; background-color:aquamarine; padding:0px 5px 0px 5px; border-radius:10px;"> @User?.Identity?.Name</li>
+
+                        <a class="btn btn-danger" style="margin-top:17px; margin-left:6px;"
+                           asp-area=""
+                           asp-action="Logout"
+                           asp-controller="Account"><b>Sign out</b></a>
+
+                    </ul>
+
+                }
+                else
+                {
+                    <ul class="nav navbar-nav navbar-right">
+                        <a class="btn btn-danger" style="margin-top:17px;"
+                           asp-area=""
+                           asp-action="Register"
+                           asp-controller="Account"><b>Sign Up</b></a>
+
+                        <a class="btn btn-primary" style="margin-top:17px; margin-left:6px;"
+                           asp-area=""
+                           asp-action="Login"
+                           asp-controller="Account"><b>Sign In</b></a>
+                    </ul>
+                }
+
+
+            </div>
+
+        </div>
+    </section>
+
+    <div class="container-fluid">
+        @RenderBody()
+    </div>
+    <!-- FOOTER -->
+    <footer id="footer">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-4 col-sm-6">
+                    <div class="footer-info">
+                        <div class="section-title">
+                            <h2>Headquarter</h2>
+                        </div>
+                        <address>
+                            <i class="bi bi-geo-alt" style="color:whitesmoke"></i><p>1800 dapibus a tortor pretium,<br> Integer nisl dui, ABC 12000</p>
+                        </address>
+
+                        <ul class="social-icon">
+                            <li><a target="_blank" href="https://www.facebook.com/shujoy.kundu.69/" class="fa fa-facebook-square" attr="facebook icon"></a></li>
+                            <li><a target="_blank" href="https://twitter.com/Alfa87256172" class="fa fa-twitter"></a></li>
+                            <li><a target="_blank" href="https://www.instagram.com/relatively_dumb/" class="fa fa-instagram"></a></li>
+                        </ul>
+
+                        <div class="copyright-text">
+                            <p>Copyright &copy; AlfaSnitch</p>
+                            <p>Designer: <a rel="nofollow" href="https://www.facebook.com/shujoy.kundu.69/" title="html5 templates" target="_blank">Shujoy Kundu</a></p>
+                            <p>Color Distribution: <a href="https://colorhunt.co/" target="_blank">Colorhunt.co</a></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-6">
+                    <div class="footer-info">
+                        <div class="section-title">
+                            <h2>Contact Info</h2>
+                        </div>
+                        <address>
+                            <p>+8801904-999999</p>
+                            <p><a href="mailto:shujoyk999@gmail.com">kuetacademy@examole.com</a></p>
+                        </address>
+
+                        <div class="footer_menu">
+                            <h2>Quick Links</h2>
+                            <ul>
+                                <li><a target="_blank" href="https://www.indeed.com/career-advice/career-development/make-a-career-plan">Career</a></li>
+                                <li><a target="_blank" href="https://www.findbestresults.co/web?q=business%20investors&o=1672447&akid=fbr-20244636174-147793905337&cid=20244636174&agid=147793905337&utm_source=google&gclid=CjwKCAjw44mlBhAQEiwAqP3eVrD-pydWZXlSxkB0HIwZP8ck_a4VM2SdCmmJAbxN8WToVGF977o93hoCOeEQAvD_BwE&ueid=377a88e9-e232-46b7-8b84-edf2bfcb66ed&qo=semQuery&ad=semA&ag=fw10&an=google_s">Investor</a></li>
+                                <li><a target="_blank" href="https://www.astartingpoint.com/static/tos.html?psafe_param=1&gclid=CjwKCAjw44mlBhAQEiwAqP3eVu5Yd21tuRfVhdJS_o3XjGw-JLA-tEQq3iv_LAoaXJm4j2hOyg8_5RoClogQAvD_BwE">Terms & Conditions</a></li>
+                                <li><a target="_blank" href="https://www.britishcouncil.org.bd/en/exam/igcse-school/register/refund-policy">Refund Policy</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-12">
+                    <div class="footer-info newsletter-form">
+                        <div class="section-title">
+                            <h2>Trusted By Companies</h2>
+                        </div>
+                        <div>
+                            <div>
+                                <span><a href="https://www.netflix.com/bd/" target="_blank"><img src="https://e1.pngegg.com/pngimages/10/90/png-clipart-clay-os-6-a-macos-icon-netflix-netflix-logo-thumbnail.png" style="width:50px;height:50px;border-radius:100%; margin-right:25px;" /></a></span>
+                                <span><a href="https://www.google.com/" target="_blank"><img src="https://e7.pngegg.com/pngimages/337/722/png-clipart-google-search-google-account-google-s-google-play-google-company-text-thumbnail.png" style="width:50px;height:50px;border-radius:100%; margin-right:25px;" /></span>
+                                <span><a href="https://investor.fb.com/home/default.aspx" target="_blank"><img src="https://e7.pngegg.com/pngimages/282/704/png-clipart-facebook-messenger-logo-icon-facebook-facebook-logo-blue-text-thumbnail.png" style="width:50px;height:50px;border-radius:100%; margin-right:10px;" /></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+    <!-- SCRIPTS -->
+    <script src="~/js/CustomJs.js"></script>
+    <script src="~/js/jquery.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/owl.carousel.min.js"></script>
+    <script src="~/js/smoothscroll.js"></script>
+    <script src="~/js/custom.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

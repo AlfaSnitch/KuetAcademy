@@ -1,0 +1,115 @@
+﻿@model KuetAcademy.Web.Models.ViewModels.UserViewModel
+
+@{
+}
+
+<div style="background-color:#98EECC; opacity:inherit; border-radius:8px;">
+    <div class="container">
+        <h1>All the Users</h1>
+    </div>
+</div>
+<br />
+<div class="row blog-container" style="justify-content:center;">
+    <button type="button" id="show-login" class="btn" style="background-color:black; color:white; font-size:16px;">
+        Create User
+    </button>
+</div>
+
+
+<div class="overlay"></div>
+
+
+<div class="container"style="position:relative; height:400px;">
+
+    @if (Model.Users is not null || Model.Users.Any())
+    {
+        <table class="table" style="margin-top:20px;">
+            <thead>
+                <tr style="font-size:18px;">
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var user in Model.Users)
+                {
+                    <tr>
+                        <td>@user.Id</td>
+                        <td>@user.Username</td>
+                        <td>@user.Email</td>
+                        <td>
+                            <form method="post" asp-controller="AdminUsers" asp-action="Delete"
+                            asp-route-id="@user.Id">
+                                <button class="btn btn-danger" type="submit">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    }
+    else
+    {
+        <h3>No Users Found!</h3>
+    }
+</div>
+</div>
+<br />
+<br />
+
+
+<form method="post">
+    <div class="popup">
+        <div class="close-btn">&times;</div>
+        <div class="form">
+            <h4>Create a user</h4>
+            <div class="form-element">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Unique Username" asp-for="UserName" />
+            </div>
+            <div class="form-element">
+                <label for="email">Email</label>
+                <input type="text" id="email" placeholder="Enter Email" asp-for="Email" />
+            </div>
+            <div class="form-element">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter Password" asp-for="Password" />
+            </div>
+            <div class="form-element">
+                <input type="checkbox" id="checkUserRole" value="User" style="background-color:aqua" checked disabled />
+                <label for="checkUserRole"> User Role</label>
+            </div>
+            
+            @if (User.IsInRole("SuperAdmin"))
+            {
+                <div class="form-element">
+                    <input type="checkbox" id="checkAdminRole" style="background-color:aqua"
+                           asp-for="AdminRoleCheckBox" />
+                    <label for="checkAdminRole"> Admin Role</label>
+                </div>
+            }
+           
+            <div class="form-element">
+                <button type="submit" class="btn" style="color:white;background-color:black;font-size:15px;">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts{
+    <script>
+        document.querySelector("#show-login").addEventListener("click", function () {
+            document.querySelector(".popup").classList.add("active");
+            document.querySelector(".overlay").classList.add("active");
+        });
+
+        document.querySelector(".popup .close-btn").addEventListener("click", function () {
+            document.querySelector(".overlay").classList.remove("active");
+            document.querySelector(".popup").classList.remove("active");
+        });
+    </script>
+}

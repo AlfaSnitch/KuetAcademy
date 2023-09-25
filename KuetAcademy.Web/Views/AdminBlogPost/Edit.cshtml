@@ -1,0 +1,176 @@
+﻿@model KuetAcademy.Web.Models.ViewModels.EditBlogPostRequest
+@{
+}
+
+<div style="background-color:#98EECC; opacity:inherit; border-radius:8px;">
+    <div class="container">
+        <h1>Edit Blog Post</h1>
+
+    </div>
+</div>
+<br />
+
+@if (TempData["update"] != null)
+{
+    <div class="alert alert-success">
+        <strong>Succes</strong>@TempData["update"]
+        <button type="button" class="close" data-dismiss="alert">
+            <span>&times;</span>
+        </button>
+    </div>
+    <br />
+}
+
+@if (TempData["notupdate"] != null)
+{
+    <div class="alert alert-danger">
+        <strong>Oops</strong>@TempData["notupdate"]
+        <button type="button" class="close" data-dismiss="alert">
+            <span>&times;</span>
+        </button>
+    </div>
+    <br>
+}
+@if (TempData["notdelete"] != null)
+{
+    <div class="alert alert-danger">
+        <strong>Oops</strong>@TempData["notdelete"]
+        <button type="button" class="close" data-dismiss="alert">
+            <span>&times;</span>
+        </button>
+    </div>
+    <br>
+}
+<div class="container py-5" style="font-size:18px;">
+    @if (Model != null)
+    {
+        <form method="post">
+            <div class="mb-3">
+                <label class="form-label">Id</label>
+                <input type="text" class="form-control" id="id" asp-for="Id" readonly />
+            </div>
+            <br>
+            <div class="mb-3">
+                <label class="form-label">Heading</label>
+                <input type="text" class="form-control" id="heading" asp-for="Heading" />
+            </div>
+            <br>
+            <div class="mb-3">
+                <label class="form-label">Page Title</label>
+                <input type="text" class="form-control" id="pagetitle" asp-for="Title" />
+            </div>
+            <br>
+            <div class="mb-3">
+                <label class="form-label">Content</label>
+                <textarea class="form-control" id="content" asp-for="Content"></textarea>
+            </div>
+            <br>
+            <div class="mb-3">
+                <label class="form-label">Short Description</label>
+                <input type="text" class="form-control" id="shortdescription" asp-for="ShortDescription" />
+            </div>
+            <br>
+            <div class="mb-3">
+                <label class="form-label">Featured Image Upload</label>
+                <input type="file" id="featuredImageUpload" class="form-control" />
+
+                @if (Model.FeaturedImageUrl != null)
+                {
+                    <img src="@Model.FeaturedImageUrl" id="featuredImageDisplay" style="display:block; width:300px; height:300px; margin-top:5px;" />
+                }
+                else
+                {
+                    <img src="@Model.FeaturedImageUrl" id="featuredImageDisplay" style="display:none; width:300px; height:300px; margin-top:5px;" />
+
+                }
+
+            </div>
+            <br>
+            <div class="mb-3">
+                <label class="form-label">Featured Image Url</label>
+                <input type="text" class="form-control" id="featuredimageurl" asp-for="FeaturedImageUrl" />
+            </div>
+            <br>
+            <div class="mb-3">
+                <label class="form-label">Url Handle</label>
+                <input type="text" class="form-control" id="urlhandle" asp-for="UrlHandle" />
+            </div>
+            <br>
+            <div class="mb-3">
+                <label class="form-label">Published Date</label>
+                <input type="date" class="form-control" id="publisheddate" asp-for="PublishedDate" />
+            </div>
+            <br>
+            <div class="mb-3">
+                <label class="form-label">Author</label>
+                <input type="text" class="form-control" id="author" asp-for="Author" />
+            </div>
+            <br>
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" id="visible" asp-for="Visible">
+                <label class="form-check-label">
+                    Is Visible?
+                </label>
+            </div>
+            <br>
+            <div class="mb-3">
+                <label class="form-label">Tags</label>
+                <select class="form-select" asp-items="@Model.Tags"
+                        asp-for="selectedTags">
+                </select>
+            </div>
+            <br>
+            <div class="mb-3 d-flex">
+                <button type="submit" class="btn btn-primary" style="margin-right:5px;">Update</button>
+                <button type="submit" class="btn btn-danger ms-3"
+                        asp-area=""
+                        asp-controller="AdminBlogPost"
+                        asp-action="Delete">
+                    Delete
+                </button>
+            </div>
+        </form>
+        <br />
+    }
+    else
+    {
+        <p>No blog post found</p>
+    }
+
+</div>
+
+@section Scripts{
+    <script>
+        var editor = new FroalaEditor('#content', {
+            imageUploadURL: '/api/images'
+        });
+
+        const featuredUploadElement = document.getElementById('featuredImageUpload');
+        const featuredImageUrlElement = document.getElementById('featuredimageurl');
+        const featuredImageDisplayElement = document.getElementById('featuredImageDisplay');
+
+
+        async function uploadFeaturedImage(e) {
+            console.log(e.target.files[0]);
+
+            let data = new FormData();
+            data.append('file', e.target.files[0]);
+
+            await fetch('/api/images', {
+                method: 'POST',
+                headers: {
+                    'Accept': '*/*',
+                },
+                body: data
+            }).then(response => response.json())
+                .then(result => {
+                    featuredImageDisplayElement.src = result.link;
+                    featuredImageDisplayElement.style.display = 'block';
+                    featuredImageUrlElement.value = result.link;
+                });
+        }
+
+        featuredUploadElement.addEventListener('change', uploadFeaturedImage);
+
+    </script>
+}

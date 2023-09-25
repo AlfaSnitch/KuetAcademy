@@ -1,0 +1,328 @@
+﻿@using KuetAcademy.Web.Models.Domain;
+@model BlogAndCourse
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<!-- HOME -->
+<section id="home">
+    <div class="row">
+
+        <div class="owl-carousel owl-theme home-slider">
+            <div class="item item-first">
+                <div class="caption">
+                    <div class="container">
+                        <div class="col-md-6 col-sm-12">
+                            <h1>Distance Learning Education Center</h1>
+                            <h3>Our online courses are designed to fit in your industry supporting all-round with latest technologies.</h3>
+                            <a href="#feature" class="section-btn btn btn-default smoothScroll">Discover more</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item item-second">
+                <div class="caption">
+                    <div class="container">
+                        <div class="col-md-6 col-sm-12">
+                            <h1>Start your journey with our practical courses</h1>
+                            <h3>Our online courses are built in partnership with technology leaders and are designed to meet industry demands.</h3>
+                            <a href="#courses" class="section-btn btn btn-default smoothScroll">Take a course</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item item-third">
+                <div class="caption">
+                    <div class="container">
+                        <div class="col-md-6 col-sm-12">
+                            <h1>Efficient Learning Methods</h1>
+                            <h3>Nam eget sapien vel nibh euismod vulputate in vel nibh. Quisque eu ex eu urna venenatis sollicitudin ut at libero. Visit <a href="https://plus.google.com/+templatemo" target="_parent">templatemo</a> page.</h3>
+                            <a href="#contact" class="section-btn btn btn-default smoothScroll">Let's chat</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- FEATURE -->
+<section id="feature">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-4 col-sm-4">
+                <div class="feature-thumb" style="background-color:#D0F5BE;border-radius:20px;box-shadow:-30px 30px 20px rgba(0,0,0,0.3);">
+                    <span>01</span>
+                    <h3>Trending Courses</h3>
+                    <p>We offer courses on a wide range of topics, from programming and web development to business and personal development. </p>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-4">
+                <div class="feature-thumb" style="background-color:#98EECC;border-radius:20px;box-shadow:-30px 30px 20px rgba(0,0,0,0.3);">
+                    <span>02</span>
+                    <h3>Books & Library</h3>
+                    <p>Proveid access to information on a wide range of topics which can be used for personal enrichment, education, or research.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-4">
+                <div class="feature-thumb" style="background-color:#79E0EE; border-radius:20px;box-shadow:-30px 30px 20px rgba(0,0,0,0.3);">
+                    <span>03</span>
+                    <h3>Certified Teachers</h3>
+                    <p>ALl of our teachers ar certified and proficent in their own respective areas and has a ton of experiences.             </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ABOUT -->
+<section id="about">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-6 col-sm-12">
+                <div class="about-info">
+                    <h2>Start your journey to a better life with online practical courses</h2>
+
+                    <figure>
+                        <span><i class="fa fa-users"></i></span>
+                        <figcaption>
+                            <h3>Stimulate creativity</h3>
+                            <p>We offer programs and events that promote creativity, such as writing workshops and art classes.</p>
+                        </figcaption>
+                    </figure>
+
+                    <figure>
+                        <span><i class="fa fa-certificate"></i></span>
+                        <figcaption>
+                            <h3>Self-paced learning</h3>
+                            <p>All of our courses are self-paced, so you can learn at your own speed and convenience.</p>
+                        </figcaption>
+                    </figure>
+
+                    <figure>
+                        <span><i class="fa fa-bar-chart-o"></i></span>
+                        <figcaption>
+                            <h3>Free for everyone</h3>
+                            <p>All of our courses are free you just need to sign up and enjoy learning.</p>
+                        </figcaption>
+                    </figure>
+                </div>
+            </div>
+
+            <div class="col-md-offset-1 col-md-4 col-sm-12">
+                <div class="entry-form">
+                    <img src="https://media2.giphy.com/media/VdoIFLsMIlwzfKD520/giphy.gif?cid=ecf05e47gkcr22pax73d9mkakxa2a2shqkk3fv1lhtz4i6ds&rid=giphy.gif&ct=s" class="img-responsive" />
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- TEAM -->
+<section id="team">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-12 col-sm-12">
+                <div class="section-title">
+                    <h2>Teachers <small>Meet Professional Trainers</small></h2>
+                </div>
+                @if (Model.Teachers != null && Model.Teachers.Any())
+                {
+                    <div class="owl-carousel owl-theme owl-client">
+                        @foreach (var teacher in Model.Teachers)
+                        {
+                            <div class="col-md-11 col-sm-4">
+                                <div class="team-thumb">
+                                    <div class="team-image">
+                                        <img src="@teacher.ImageUrl" class="img-responsive" alt="" />
+                                    </div>
+                                    <div class="team-info">
+                                        <h3>@teacher.Name</h3>
+                                        <span>@teacher.ShortDescription</span>
+                                    </div>
+                                    <ul class="social-icon">
+                                        <li><a target="_blank" href="@teacher.FacebookLink" class="fa fa-facebook-square" attr="facebook icon"></a></li>
+                                        <li><a target="_blank" href="@teacher.TwitterLink" class="fa fa-twitter"></a></li>
+                                        <li><a target="_blank" href="@teacher.InstagramLink" class="fa fa-instagram"></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Courses -->
+<section id="courses">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-12 col-sm-12">
+                <div class="section-title">
+                    <h2>Our Courses <small>Upgrade your skills with newest courses</small></h2>
+                </div>
+
+                @if (Model.Courses != null && Model.Courses.Any())
+                {
+                    <div class="owl-carousel owl-theme owl-courses">
+                        @foreach (var course in Model.Courses)
+                        {
+                            <div class="col-md-4 col-sm-4">
+                                <div class="item">
+                                    <div class="courses-thumb">
+                                        <div class="courses-top">
+                                            <div class="courses-image">
+                                                <img src="@course.FeaturedImageUrl" class="img-responsive" alt="">
+                                            </div>
+                                            <div class="courses-date">
+                                                <span style="color:#F9D949"><i class="fa fa-calendar" style="color:aqua"></i>@course.PublishedDate.ToShortDateString()</span>
+                                                <span><i class="fa fa-clock-o" style="color:aqua"></i> @course.Duration</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="courses-detail">
+                                            <h3><a style="cursor:pointer">@course.Title</a></h3>
+                                            <p>@course.Name</p>
+                                        </div>
+
+                                        <div class="courses-info">
+                                            <div class="courses-author">
+                                                <img src="images/logo.png" class="img-responsive" alt="">
+                                                <span style="font-weight:bold; font-size:15px; cursor:pointer;"><a>@course.Author</a></span>
+                                            </div>
+                                            <div class="courses-price">
+                                                <a class="btn btn-primary" style="background-color:lightgreen; color:black;font-weight:bold;"
+                                                   asp-area=""
+                                                   asp-controller="Course"
+                                                   asp-action="Index"
+                                                   asp-route-urlHandle="@course.UrlHandle">
+                                                    Start Now
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Blogs -->
+<section id="testimonial">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-12 col-sm-12">
+                <div class="section-title">
+                    <h2>Our Blogs<small>empowering voices, shaping the world</small></h2>
+                </div>
+                @if (Model.BlogPosts != null && Model.BlogPosts.Any())
+                {
+                    <div class="owl-carousel owl-theme owl-client">
+                        @foreach (var blogPost in Model.BlogPosts)
+                        {
+                            <div class="col-md-4 col-sm-4">
+                                <div class="item">
+                                    <div>
+                                        <img src="@blogPost.FeaturedImageUrl" class="img-responsive" alt="">
+                                    </div>
+                                    <br>
+                                    <div class="tst-author">
+                                        <h4>@blogPost.Author</h4>
+                                        <span>@blogPost.PublishedDate.ToShortDateString()</span>
+                                        <br>
+                                        <p>
+                                            @foreach (var tag in blogPost.Tags)
+                                            {
+                                                <span class="badge" style="color:white;">@tag.Name</span>
+                                            }
+                                        </p>
+                                        <h4>@blogPost.Title</h4>
+                                    </div>
+                                    <p>@blogPost.ShortDescription</p>
+                                    <div style="margin-bottom:5px;">
+                                        <a class="btn btn-success"
+                                           asp-area=""
+                                           asp-controller="Blogs"
+                                           asp-action="Index"
+                                           asp-route-urlHandle="@blogPost.UrlHandle">
+                                            <b>Read More</b>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                }
+                else
+                {
+                    <p>No BLOGs Found</p>
+                }
+
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- CONTACT -->
+<section id="contact" style="border-radius:20px;">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-6 col-sm-12">
+                <form id="contact-form" role="form" action="mailto:shujoyk999@gmail.com" method="post" enctype="text/plain">
+                    <div class="section-title">
+                        <h2>Contact us <small>we love conversations. let us talk!</small></h2>
+                    </div>
+
+                    <div class="col-md-12 col-sm-12">
+                        <input type="text" class="form-control" placeholder="Enter full name" name="name" required="">
+
+                        <input type="email" class="form-control" placeholder="Enter email address" name="email" required="">
+
+                        <textarea class="form-control" rows="6" placeholder="Tell us about your message" name="message" required=""></textarea>
+                    </div>
+
+                    <div class="col-md-4 col-sm-12">
+                        <input type="submit" class="form-control" name="send message" value="Send Message">
+                    </div>
+
+                </form>
+            </div>
+
+            <div class="col-md-6 col-sm-12">
+                <div class="contact-image">
+                    <img src="images/contact-image.jpg" class="img-responsive" alt="Smiling Two Girls" style="border-radius:120%;" />
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
